@@ -7,7 +7,7 @@ import NewCourseForm from "./components/NewCourseForm";
 const App = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [formVisible, setFormVisble] = useState<boolean>(false);
-  const [ newCoursesNumber, setNewCourseNumber] = useState<number>(0)
+  const [ newCoursesNumber, setNewCourseNumber] = useState<string>('22222')
   const [ newCoursesTitle, setNewCourseTitle] = useState<string>('2365')
 
   const toggleForm = () => {
@@ -15,7 +15,6 @@ const App = () => {
   };
 
   
-
   useEffect(() => {
     fetch("http://localhost:3001/courses")
       .then((res) => res.json())

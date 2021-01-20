@@ -15,8 +15,29 @@ const NewCourseForm = () => {
   };
 
   const handleSave = () => {
-    alert("Finish!!!!");
-  };
+
+    const newCourse = {
+
+      number: newCoursesNumber,
+      title : newCoursesTitle
+
+      };
+
+      fetch("http://localhost:3001/courses", {
+
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json'},
+             body: JSON.stringify(newCourse)
+      })
+      .then(res => res.json())
+      .then(saveNewCourse=> {
+          if(saveNewCourse.id === undefined)
+          {
+                alert("Error!!!!!!!!!")
+          }
+      })
+    }
+  
 
   return (
     <div>
