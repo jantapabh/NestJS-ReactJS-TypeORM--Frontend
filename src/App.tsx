@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
 import './App.css';
+import Axios from 'axios';
 
-function App() {
+
+const App = () => {
+
+  const [courses, setCourses ] = useState('Hi Jantapa')
+  
+  useEffect(() => {
+
+   Axios.get('http://localhost:3001/courses')
+   .then(res => res.data)
+   .then( obj => {
+     console.log(obj);
+   })
+    
+  }, [courses])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{courses}</h1>
     </div>
   );
 }
