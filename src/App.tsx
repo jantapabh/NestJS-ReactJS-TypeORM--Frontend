@@ -1,36 +1,44 @@
-import React, {useState, useEffect} from 'react';
-import './App.css';
-import Axios from 'axios';
-import { Course } from './interfaces';
-import CourseItem from './components/CourseItem';
-
+import React, { useState, useEffect, Component } from "react";
+import "./App.css";
+import { Course } from "./interfaces";
+import CourseItem from "./components/CourseItem";
+import NewCourseForm from "./components/NewCourseForm";
 
 const App = () => {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [formVisible, setFormVisble] = useState<boolean>(false);
+  const [ newCoursesNumber, setNewCourseNumber] = useState<number>(0)
+  const [ newCoursesTitle, setNewCourseTitle] = useState<string>('2365')
 
-  const [courses, setCourses ] = useState<Course[]>([]);
+  const toggleForm = () => {
+    setFormVisble(true);
+  };
+
   
-  useEffect(() => {
 
-   fetch('http://localhost:3001/courses')
-   .then(res => res.json())
-   .then( courses=> {
-     console.log(courses);
-     setCourses(courses)
-   })
-    
-  }, [])
+  useEffect(() => {
+    fetch("http://localhost:3001/courses")
+      .then((res) => res.json())
+      .then((courses) => {
+        console.log(courses);
+        setCourses(courses);
+      });
+   
+  }, []);
 
   return (
     <div className="App">
       <ul>
-      {courses.map((item) => (
-        
-        <CourseItem key={item.id} course={item} />
-  
-      ))}
-        </ul>
+        {courses.map((item) => (
+          <CourseItem key={item.id} course={item} />
+        ))}
+      </ul>
+      <button onClick={toggleForm}>New Course</button>
+      {formVisible && (
+        <NewCourseForm />
+      )}
     </div>
   );
-}
+};
 
 export default App;
