@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Course } from "../interfaces";
 
-type NewCourseForm = {};
+//สร้าง props สำหรับส่งไปยัง App
+type NewCourseFormProps = {
+  onNewCourseCreated?: (newCourse: Course) => void;
+};
 
-const NewCourseForm = () => {
+const NewCourseForm = (props: NewCourseFormProps) => {
   const [newCoursesNumber, setNewCourseNumber] = useState<number>(0);
   const [newCoursesTitle, setNewCourseTitle] = useState<string>("2365");
 
@@ -15,29 +19,28 @@ const NewCourseForm = () => {
   };
 
   const handleSave = () => {
-
     const newCourse = {
-
       number: newCoursesNumber,
-      title : newCoursesTitle
+      title: newCoursesTitle,
+    };
 
-      };
-
-      fetch("http://localhost:3001/courses", {
-
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json'},
-             body: JSON.stringify(newCourse)
-      })
-      .then(res => res.json())
-      .then(saveNewCourse=> {
-          if(saveNewCourse.id === undefined)
-          {
-                alert("Error!!!!!!!!!")
+    fetch("http://localhost:3001/courses", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newCourse),
+    })
+      .then((res) => res.json())
+      .then((saveNewCourse) => {
+        if (saveNewCourse.id !== undefined) {
+          if (props.onNewCourseCreated !== undefined) {
+            props.onNewCourseCreated(saveNewCourse);
+            alert("Save Finish");
           }
-      })
-    }
-  
+        } else {
+          alert("Save Error");
+        }
+      });
+  };
 
   return (
     <div>

@@ -7,23 +7,29 @@ import NewCourseForm from "./components/NewCourseForm";
 const App = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [formVisible, setFormVisble] = useState<boolean>(false);
-  const [ newCoursesNumber, setNewCourseNumber] = useState<string>('22222')
-  const [ newCoursesTitle, setNewCourseTitle] = useState<string>('2365')
+  const [newCoursesNumber, setNewCourseNumber] = useState<string>("22222");
+  const [newCoursesTitle, setNewCourseTitle] = useState<string>("2365");
 
   const toggleForm = () => {
     setFormVisble(true);
   };
 
-  
-  useEffect(() => {
+  const fetchCourse = () => {
     fetch("http://localhost:3001/courses")
       .then((res) => res.json())
       .then((courses) => {
-        console.log(courses);
         setCourses(courses);
       });
-   
-  }, []);
+  };
+
+  const handleNewCourse = (course: Course) => {
+    fetchCourse();
+    setFormVisble(false);
+  };
+ 
+  useEffect(() => {
+    fetchCourse();
+  }, [courses]);
 
   return (
     <div className="App">
@@ -33,9 +39,7 @@ const App = () => {
         ))}
       </ul>
       <button onClick={toggleForm}>New Course</button>
-      {formVisible && (
-        <NewCourseForm />
-      )}
+      {formVisible && <NewCourseForm onNewCourseCreated={handleNewCourse} />}
     </div>
   );
 };
