@@ -1,25 +1,34 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import Axios from 'axios';
+import { Course } from './interfaces';
+import CourseItem from './components/CourseItem';
 
 
 const App = () => {
 
-  const [courses, setCourses ] = useState('Hi Jantapa')
+  const [courses, setCourses ] = useState<Course[]>([]);
   
   useEffect(() => {
 
-   Axios.get('http://localhost:3001/courses')
-   .then(res => res.data)
-   .then( obj => {
-     console.log(obj);
+   fetch('http://localhost:3001/courses')
+   .then(res => res.json())
+   .then( courses=> {
+     console.log(courses);
+     setCourses(courses)
    })
     
-  }, [courses])
+  }, [])
 
   return (
     <div className="App">
-      <h1>{courses}</h1>
+      <ul>
+      {courses.map((item) => (
+        
+        <CourseItem key={item.id} course={item} />
+  
+      ))}
+        </ul>
     </div>
   );
 }
