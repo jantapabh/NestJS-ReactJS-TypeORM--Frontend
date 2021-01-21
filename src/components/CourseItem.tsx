@@ -11,35 +11,49 @@ const CourseItem = (props: CourseItemProps) => {
 
   const [reviewVisible, setReviewsVisible] = useState<boolean>(false);
   const [reviews, setReview] = useState<Review[]>([]);
-  const [newReviewComments, setNewReviewComments] = useState<string>('');
+  const [newReviewComments, setNewReviewComments] = useState<string>("");
   const [newReviewScore, setNewReviewScore] = useState<number>(1);
+
+  const fetchReview = () => {
+    if (course.id) {
+      CoursesService.fetchReview(course.id).then((reviews) => {
+        setReview(reviews);
+      });
+    }
+  };
 
   const handleReviewToggle = () => {
     if (!reviewVisible) {
-      if (course.id) {
-        CoursesService.fetchReview(course.id).then((reviews) => {
-          setReview(reviews);
-          setReviewsVisible(true);
-          console.log(reviews);
-        });
-      }
+      fetchReview();
+      setReviewsVisible(true);
     } else {
       setReviewsVisible(false);
     }
   };
 
-  const newReviewScoreOptions = [1,2,3,4,5];
+  const clearNewReviewForm = () => {
+      setNewReviewComments('')
+      setNewReviewScore(1)
+  }
 
   const handleReviewSave = () => {
-     
     const newReviews: Review = {
-        comment: newReviewComments,
-        score: newReviewScore
+      comment: newReviewComments,
+      score: newReviewScore,
     };
 
-    CoursesService.saveReview(newReviews, course.id)
+    if (course.id) {
+      CoursesService.saveReview(newReviews, course.id)
+      .then((saveNewReview) => {
+        if (saveNewReview) {
+            fetchReview();
+            clearNewReviewForm()
+        }
+      });
+    }
+  };
 
-  }
+  const newReviewScoreOptions = [1, 2, 3, 4, 5];
 
   return (
     <li>
@@ -60,15 +74,23 @@ const CourseItem = (props: CourseItemProps) => {
           </ul>
           <b>New review: </b>
           <br />
-          Comments: <input value={newReviewComments} onChange={(e) => {setNewReviewComments(e.target.value)}} />
+          Comments:{" "}
+          <input
+            value={newReviewComments}
+            onChange={(e) => {
+              setNewReviewComments(e.target.value);
+            }}
+          />
           &nbsp;
-          <select value={newReviewScore}
-          onChange={(e) => {setNewReviewScore(parseInt(e.target.value))}}>
-              {
-                  newReviewScoreOptions.map(item => (
-                      <option value={item}>{item}</option>
-                  ))
-              }
+          <select
+            value={newReviewScore}
+            onChange={(e) => {
+              setNewReviewScore(parseInt(e.target.value));
+            }}
+          >
+            {newReviewScoreOptions.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
           </select>
           &nbsp;
           <button onClick={handleReviewSave}>Save</button>
