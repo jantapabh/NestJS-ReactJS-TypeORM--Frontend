@@ -1,6 +1,8 @@
+import React, {useEffect} from 'react'
 import { Course, Review } from "../interfaces";
 import { baseUrl } from "../config/const";
 
+// Get All Data course
 async function fetchCourses(): Promise<Course[]> {
   const result = await fetch(`${baseUrl}/courses`);
   const courses = result.json();
@@ -30,7 +32,6 @@ async function fetchReview(courseId: string): Promise<Review[]> {
   return review;
 }
 
-
 //สำหรับ save comment
 async function saveReview(newReview: Review, courseId: string): Promise<Review | null> {
   const res = await fetch(`${baseUrl}/courses/${courseId}/reviews`, {
@@ -45,6 +46,8 @@ async function saveReview(newReview: Review, courseId: string): Promise<Review |
     return null;
   }
 }
+
+
 
 export default {
   fetchCourses,

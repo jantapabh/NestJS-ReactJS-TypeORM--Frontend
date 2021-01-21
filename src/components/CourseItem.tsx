@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Course, Review } from "../interfaces";
 import CoursesService from "../services/CoursesService";
 
@@ -21,6 +21,14 @@ const CourseItem = (props: CourseItemProps) => {
       });
     }
   };
+
+  useEffect(()=> {
+
+    fetchReview()
+    handleReviewToggle()
+    
+
+  },[])
 
   const handleReviewToggle = () => {
     if (!reviewVisible) {
