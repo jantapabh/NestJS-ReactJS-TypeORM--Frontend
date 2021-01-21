@@ -9,56 +9,29 @@ type NewCourseFormProps = {
 };
 
 const NewCourseForm = (props: NewCourseFormProps) => {
-  // const [newCoursesNumber, setNewCourseNumber] = useState<string>("22222");
-  // const [newCoursesTitle, setNewCourseTitle] = useState<string>("2365");
-
-  // const handleCoursesNumberChange = (e: any) => {
-  //   setNewCourseNumber(e.target.value);
-  // };
-
-  // const handleCoursesTitleChange = (e: any) => {
-  //   setNewCourseTitle(e.target.value);
-  // };
-
-  // const handleSave = () => {
-  //   const newCourse = {
-  //     number: newCoursesNumber,
-  //     title: newCoursesTitle,
-  //   };
-
-  //   CoursesService.createCourse(newCourse).then((saveNewCourse) => {
-  //     if (saveNewCourse !== null) {
-  //       if (props.onNewCourseCreated !== undefined) {
-  //         props.onNewCourseCreated(saveNewCourse);
-  //         alert("Save Finish");
-  //       }
-  //     } else {
-  //       alert("Save Error");
-  //     }
-  //   });
-  // };
 
   return (
     <div>
-      <h1>Any place in your app!</h1>
       <Formik
-        initialValues={{ newCoursesNumber: "", newCoursesTitle: "" }}
+        initialValues={{ newCourseNumber: "", newCourseTitle: "" }}
         validate={(values) => {
           const errors: any = {};
-          if (values.newCoursesTitle === "") {
+
+          if (values.newCourseTitle === "") {
             errors.newCourseTitle = "Course Title Not Validate";
           }
-          if (values.newCoursesNumber === "") {
-            errors.newCourseNumber = "Course Number Not Validate";
-          } else if (!/^[0-9]+$/.test(values.newCoursesNumber)) {
+          
+          if (values.newCourseNumber === "") {
+            errors.newCoursesNumber = "Course Number Not Validate";
+          } else if (!/^[0-9]+$/.test(values.newCourseNumber)) {
             errors.newCourseNumber = "Course Number Format Error";
           }
           return errors;
         }}
         onSubmit={(values, actions) => {
           const newCourse = {
-            number: values.newCoursesNumber,
-            title: values.newCoursesTitle,
+            number: values.newCourseNumber,
+            title: values.newCourseTitle,
           };
           CoursesService.createCourse(newCourse).then((saveNewCourse) => {
             if (saveNewCourse !== null) {
