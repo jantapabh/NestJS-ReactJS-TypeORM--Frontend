@@ -22,13 +22,6 @@ const CourseItem = (props: CourseItemProps) => {
     }
   };
 
-  useEffect(()=> {
-
-    fetchReview()
-    handleReviewToggle()
-    
-
-  },[])
 
   const handleReviewToggle = () => {
     if (!reviewVisible) {
