@@ -1,12 +1,12 @@
 export interface Course {
-  id?: number;
+  id?: string;
   number?: string;
   title?: string;
 }
 
 export interface Review {
-  id?: number;
-  comments: string;
+  id?: string;
+  comment: string;
   score: number;
   courseId?: string;
 }

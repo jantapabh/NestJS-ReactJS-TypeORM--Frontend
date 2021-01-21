@@ -10,13 +10,18 @@ const CourseItem = (props: CourseItemProps) => {
   const course = props.course;
 
   const [reviewVisible, setReviewsVisible] = useState<boolean>(false);
-  const [review, setReview] = useState<Review[]>([]);
+  const [reviews, setReview] = useState<Review[]>([]);
 
   const handleReviewToggle = () => {
     if (!reviewVisible) {
       if (course.id) {
-        CoursesService.fetchReview(course.id);
-        setReviewsVisible(true);
+        CoursesService.fetchReview(course.id)
+        .then(reviews => {
+            setReview(reviews)
+            setReviewsVisible(true);
+            console.log(reviews);
+            
+        })
       }
     } else {
       setReviewsVisible(false);
@@ -26,10 +31,24 @@ const CourseItem = (props: CourseItemProps) => {
   return (
     <li>
       {course.number} {course.title}
-      &nbsp; &nbsp; &nbsp;<button onClick={handleReviewToggle}>Toggle</button>
-      {reviewVisible && <ul></ul>}
+      &nbsp; &nbsp; &nbsp;<button onClick={handleReviewToggle}>
+          {
+              reviewVisible ? 'Hidden Reviews' : 'Show Reviews'
+          }
+      </button>
+      {reviewVisible &&
+       <ul>{reviews.map(review => (
+          <li>{review.comment} ({review.score})</li>
+      ))}
+       {reviews.length === 0 && 
+            (
+                <li>No Result</li>
+            )
+      } 
+     </ul>
+}
     </li>
   );
-};
+    }
 
 export default CourseItem;
