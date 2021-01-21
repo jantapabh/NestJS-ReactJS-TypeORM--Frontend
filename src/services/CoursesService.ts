@@ -7,6 +7,8 @@ async function fetchCourses(): Promise<Course[]> {
   return courses;
 }
 
+
+// create Course and Save Course
 async function createCourse(newCourse: Course): Promise<Course | null> {
   const res = await fetch(`${baseUrl}/courses`, {
     method: "POST",
@@ -28,8 +30,25 @@ async function fetchReview(courseId: string): Promise<Review[]> {
   return review;
 }
 
+
+//สำหรับ save comment
+async function saveReview(newReview: Review, courseId: string): Promise<Review | null> {
+  const res = await fetch(`${baseUrl}/courses/${courseId}/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newReview),
+  });
+  const saveNewReview: Review = await res.json();
+  if (saveNewReview.id !== undefined) {
+    return saveNewReview;
+  } else {
+    return null;
+  }
+}
+
 export default {
   fetchCourses,
   createCourse,
-  fetchReview
+  fetchReview,
+  saveReview
 };

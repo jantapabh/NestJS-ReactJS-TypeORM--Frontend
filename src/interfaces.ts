@@ -6,7 +6,7 @@ export interface Course {
 
 export interface Review {
   id?: string;
-  comment: string;
-  score: number;
+  comment?: string;
+  score?: number;
   courseId?: string;
 }
