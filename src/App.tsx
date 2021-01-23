@@ -4,44 +4,17 @@ import { Course } from "./interfaces";
 import CourseItem from "./components/CourseItem";
 import NewCourseForm from "./components/NewCourseForm";
 import CoursesService  from './services/CoursesService'
+import LoginForm from "./components/LoginForm";
+import About from "./components/About";
+import CourseReview from "./components/CourseReview";
 
 const App = () => {
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [formVisible, setFormVisble] = useState<boolean>(false);
-  const [newCoursesNumber, setNewCourseNumber] = useState<string>("22222");
-  const [newCoursesTitle, setNewCourseTitle] = useState<string>("2365");
-
-  const toggleForm = () => {
-    setFormVisble(true);
-  };
-
-  const fetchCourse = () => {
-
-    CoursesService.fetchCourses()
-    .then(courses => {
-      setCourses(courses)
-    })
-
-  };
-
-  const handleNewCourse = (course: Course) => {
-    fetchCourse();
-    setFormVisble(false);
-  };
- 
-  useEffect(() => {
-    fetchCourse();
-  }, [courses]);
 
   return (
     <div className="App">
-      <ul>
-        {courses.map((item) => (
-          <CourseItem key={item.id} course={item} />
-        ))}
-      </ul>
-      <button onClick={toggleForm}>New Course</button>
-      {formVisible && <NewCourseForm onNewCourseCreated={handleNewCourse} />}
+      <CourseReview />
+      <LoginForm />
+      <About />
     </div>
   );
 };
