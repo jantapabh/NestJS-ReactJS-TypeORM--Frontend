@@ -46,8 +46,8 @@ const App = () => {
                 About
               </Link>
             </li>
+            <li> <button onClick={logout}>Logout</button></li>
             {username && <li>USER : {username}</li>}
-            <button onClick={logout}>Logout</button>
           </ul>
         </nav>
         <Switch>

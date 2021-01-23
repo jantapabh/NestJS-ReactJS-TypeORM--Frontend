@@ -50,9 +50,16 @@ function logoutUser():  void {
     }
 }
 
+function getAccessToken (): (string) {
+    
+        return localStorage.accessToken; 
+   
+}
+
 export default {
   loginUser,
   isUserLoggedIn,
   getUsername,
-  logoutUser
+  logoutUser,
+  getAccessToken
 };

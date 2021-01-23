@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Course } from "../interfaces";
 import CoursesService from "../services/CoursesService";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import AuthService from "../services/AuthService";
 
 //สร้าง props สำหรับส่งไปยัง App
 type NewCourseFormProps = {
@@ -33,7 +34,7 @@ const NewCourseForm = (props: NewCourseFormProps) => {
             number: values.newCourseNumber,
             title: values.newCourseTitle,
           };
-          CoursesService.createCourse(newCourse).then((saveNewCourse) => {
+          CoursesService.createCourse(newCourse, AuthService.getAccessToken()).then((saveNewCourse) => {
             if (saveNewCourse !== null) {
               if (props.onNewCourseCreated !== undefined) {
                 props.onNewCourseCreated(saveNewCourse);
